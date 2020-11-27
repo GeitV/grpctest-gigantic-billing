@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ee.concise.gigantic_messaging";
+option java_outer_classname = "GiganticMessagingProto";
+option objc_class_prefix = "GM";
+
+package gigantic_messaging;
+
+service GiganticMessaging {
+  rpc SendEmail(EmailRequest) returns (BaseResponse) {}
+  rpc SendEmailStream(stream EmailRequest) returns (stream BaseResponse) {}
+}
+
+message EmailRequest {
+  string email = 1;
+  int32 messageId = 2;
+  string body = 3;
+}
+
+message BaseResponse {
+  enum ResponseStatus {
+    SUCCESS_OK = 0;
+    ERROR_INTERNAL = 1;
+    ERROR_INVALID_REQUEST = 2;
+  }
+  ResponseStatus status = 1;
+  string message = 2;
+  int32 messageId = 3;
+}
